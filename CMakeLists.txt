@@ -116,6 +116,7 @@ add_executable(firal
     include/firal/object.h
     include/firal/map.h
     include/firal/shade.h
+    include/firal/util.h
 
     # Implementation files
     src/random.cpp

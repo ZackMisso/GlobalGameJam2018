@@ -1,6 +1,7 @@
 #include <firal/game.h>
 #include <firal/shade.h>
 #include <firal/render.h>
+#include <firal/util.h>
 
 Game::Game() : nanogui::Screen(Eigen::Vector2i(800, 800), "Feigns Tale") {
     initializeGUI();
@@ -80,7 +81,11 @@ void Game::drawContents() {
 
     Matrix4f mvp;
     mvp.setIdentity();
-    mvp.topLeftCorner<3,3>() = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitZ())) * 0.25f;
+    // Matrix3f zrot = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitZ())) * 0.25f;
+    // Matrix3f yrot = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitY())) * 0.25f;
+    // mvp.topLeftCorner<3,3>() = zrot * yrot;
+
+    mvp = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
 
     mvp.row(0) *= (float) mSize.y() / (float) mSize.x();
 
@@ -90,12 +95,24 @@ void Game::drawContents() {
     // mvp.row(0) *= (float) mSize.y() / (float) mSize.x();
     // cout << mSize.y() << endl;
 
+    // MatrixXu indices(3, 2); /* Draw 2 triangles */
+    // indices.col(0) << 0, 1, 2;
+    // indices.col(1) << 2, 3, 0;
+    //
+    // MatrixXf positions(3, 4);
+    // positions.col(0) << -1, -1, 0;
+    // positions.col(1) <<  1, -1, 0;
+    // positions.col(2) <<  1,  1, 0;
+    // positions.col(3) << -1,  1, 0;
+
     Shade::simpleShader.bind();
     Shade::simpleShader.uploadIndices(Render::cube_inds);
     Shade::simpleShader.uploadAttrib("position", Render::cube_verts);
+    // Shade::simpleShader.uploadIndices(indices);
+    // Shade::simpleShader.uploadAttrib("position", positions);
     Shade::simpleShader.setUniform("intensity", 0.5f);
     Shade::simpleShader.setUniform("modelViewProj", mvp);
-    Shade::simpleShader.drawIndexed(GL_TRIANGLES, 0, 2);
+    Shade::simpleShader.drawIndexed(GL_LINES, 0, 24);
 
     // cout << "DRAW TWO" << endl;
 }

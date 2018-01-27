@@ -2,6 +2,7 @@
 
 Map::Map(int w, int h) : mapWidth(w), mapHeight(h), widthScale(1.f), heightScale(1.f) {
     heightPoints = vector<float>();
+    tileTypes = vector<int>();
     initializeFlatHeightMap();
 }
 
@@ -11,6 +12,9 @@ void Map::initializeFlatHeightMap() {
     for (int i = 0; i < mapHeight; ++i)
         for (int j = 0; j < mapWidth; ++j)
             heightPoints.push_back(1.f);
+    for (int i = 1; i < mapHeight; ++i)
+        for (int j = 1; j < mapHeight; ++j)
+            tileTypes.push_back(0);
 }
 
 // this will have issues when if the map is transformed....

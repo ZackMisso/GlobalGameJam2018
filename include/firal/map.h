@@ -16,6 +16,8 @@ public:
     void render();
 
     vector<float> heightPoints;
+    vector<int> tileTypes;
+    
     int mapWidth;
     int mapHeight;
     float widthScale;
