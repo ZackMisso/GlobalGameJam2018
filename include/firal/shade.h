@@ -10,4 +10,5 @@ public:
 
     static nanogui::GLShader quadShader;
     static nanogui::GLShader simpleShader;
+    static nanogui::GLShader phongShader;
 };

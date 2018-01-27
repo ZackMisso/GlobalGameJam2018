@@ -142,6 +142,8 @@ void Game::drawContents() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glEnable(GL_DEPTH_TEST);
+
     currentTime = high_resolution_clock::now();
     duration<double> time_span = duration_cast<duration<double>>(currentTime - startTime);
 
@@ -149,57 +151,45 @@ void Game::drawContents() {
 
     update(dt);
 
-    Matrix4f mvp;
-    mvp.setIdentity();
+    // Matrix4f mvp;
+    // mvp.setIdentity();
 
+    // flat shading
+    // Matrix4f model = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
+    // Matrix4f view = camera->lookAt(player);
+    // Matrix4f proj = perspective(120.f, aspect, 0.2f, 100.f);
+    //
+    // mvp = proj * view * model;
+    //
+    // Shade::simpleShader.bind();
+    // Shade::simpleShader.uploadIndices(Render::cube_inds);
+    // Shade::simpleShader.uploadAttrib("position", Render::cube_verts);
+    // Shade::simpleShader.setUniform("intensity", 0.5f);
+    // Shade::simpleShader.setUniform("modelViewProj", mvp);
+    // Shade::simpleShader.drawIndexed(GL_TRIANGLES, 0, 12);
+
+    // blinnPhong
     Matrix4f model = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
     Matrix4f view = camera->lookAt(player);
     Matrix4f proj = perspective(120.f, aspect, 0.2f, 100.f);
 
-    // if (input->getWKeyDown()) { cout << "W IS DOWN " << endl; }
-    // if (input->getAKeyDown()) { cout << "A IS DOWN " << endl; }
-    // cout << "DT: " << dt << endl;
+    Matrix4f mvp = proj * view * model;
+    Matrix4f invView = view.inverse();
+    Matrix4f normMat = model.inverse().transpose();
+    Vector3f lightPos = camera->getPosition();
 
-    // printMatrix(view);
-
-    mvp = proj * view * model;
-    // mvp = view * model;
-    // mvp = model;
-
-    // Matrix3f zrot = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitZ())) * 0.25f;
-    // Matrix3f yrot = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitY())) * 0.25f;
-    // mvp.topLeftCorner<3,3>() = zrot * yrot;
-
-    // mvp = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
-
-    // mvp.row(0) *= (float) mSize.y() / (float) mSize.x();
+    Shade::phongShader.bind();
+    Shade::phongShader.uploadIndices(Render::cube_inds);
+    Shade::phongShader.uploadAttrib("pos", Render::cube_verts);
+    Shade::phongShader.uploadAttrib("norm", Render::cube_norms);
+    Shade::phongShader.setUniform("mvpMatrix", mvp);
+    Shade::phongShader.setUniform("mMatrix", model);
+    Shade::phongShader.setUniform("nMatrix", normMat);
+    Shade::phongShader.setUniform("invViewMatrix", invView);
+    Shade::phongShader.setUniform("lightPos", lightPos);
+    Shade::phongShader.drawIndexed(GL_TRIANGLES, 0, 12);
 
 
-    // mvp *= 40.f;
-    // mvp.topLeftCorner<3,3>() = Matrix3f(Eigen::AngleAxisf(time_span.count(),  Vector3f::UnitZ())) * 0.25f;
-    // mvp.row(0) *= (float) mSize.y() / (float) mSize.x();
-    // cout << mSize.y() << endl;
-
-    // MatrixXu indices(3, 2); /* Draw 2 triangles */
-    // indices.col(0) << 0, 1, 2;
-    // indices.col(1) << 2, 3, 0;
-    //
-    // MatrixXf positions(3, 4);
-    // positions.col(0) << -1, -1, 0;
-    // positions.col(1) <<  1, -1, 0;
-    // positions.col(2) <<  1,  1, 0;
-    // positions.col(3) << -1,  1, 0;
-
-    Shade::simpleShader.bind();
-    Shade::simpleShader.uploadIndices(Render::cube_inds);
-    Shade::simpleShader.uploadAttrib("position", Render::cube_verts);
-    // Shade::simpleShader.uploadIndices(indices);
-    // Shade::simpleShader.uploadAttrib("position", positions);
-    Shade::simpleShader.setUniform("intensity", 0.5f);
-    Shade::simpleShader.setUniform("modelViewProj", mvp);
-    Shade::simpleShader.drawIndexed(GL_LINES, 0, 24);
-
-    // cout << "DRAW TWO" << endl;
 }
 
 void Game::update(float dt) {
