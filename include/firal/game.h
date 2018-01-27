@@ -1,5 +1,7 @@
 #include <firal/common.h>
 #include <firal/subscreen.h>
+#include <firal/player.h>
+#include <firal/camera.h>
 #include <nanogui/window.h>
 
 class Game : public nanogui::Screen {
@@ -25,4 +27,9 @@ protected:
     nanogui::Window* gameWindow;
     clockc::time_point startTime;
     clockc::time_point currentTime;
+
+    Player* player;
+    Camera* camera;
+
+    float aspect;
 };

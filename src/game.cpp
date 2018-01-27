@@ -23,6 +23,14 @@ void Game::initializeWorld() {
     Shade::initialize();
     Render::initialize();
 
+    player = new Player();
+    camera = new Camera();
+
+    player->setPosition(Vector3f(0f, 0f, 0f));
+    camera->setPosition(Vector3f(0f, 0f, -5f));
+
+    aspect = 1.f;
+
     // TODO
 }
 
@@ -81,6 +89,11 @@ void Game::drawContents() {
 
     Matrix4f mvp;
     mvp.setIdentity();
+
+    Matrix4f model = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
+    Matrix4f view = camera->lookAt(player);
+    Matrix4f proj = perspective(); // GOTTA GO
+
     // Matrix3f zrot = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitZ())) * 0.25f;
     // Matrix3f yrot = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitY())) * 0.25f;
     // mvp.topLeftCorner<3,3>() = zrot * yrot;

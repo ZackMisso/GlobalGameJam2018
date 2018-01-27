@@ -8,6 +8,9 @@ public:
     Camera();
     ~Camera();
 
-    void lookAt();
+    Matrix4f lookAt(Object* other);
     Object* traceRay(float x, float y);
+
+protected:
+    bool dirty;
 };
