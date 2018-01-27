@@ -94,3 +94,13 @@ MatrixXf perspective(float fov, float aspect, float near, float far) {
     float x = y * aspect;
     return frustum(-x, x, -y, y, near, far);
 }
+
+void printMatrix(Matrix4f matrix) {
+    for (int i = 0; i < matrix.rows(); i++) {
+        for (int j = 0; j < matrix.cols(); j++) {
+            cout << " " << matrix(i, j) << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}

@@ -117,6 +117,7 @@ add_executable(firal
     include/firal/map.h
     include/firal/shade.h
     include/firal/util.h
+    include/firal/input.h
 
     # Implementation files
     src/random.cpp
@@ -130,6 +131,7 @@ add_executable(firal
     src/object.cpp
     src/map.cpp
     src/shade.cpp
+    src/input.cpp
 )
 
 #OPENEXR_INCLUDE_DIRS

@@ -9,7 +9,9 @@ Game::Game() : nanogui::Screen(Eigen::Vector2i(800, 800), "Feigns Tale") {
 }
 
 Game::~Game() {
-    // TODO
+    delete player;
+    delete camera;
+    delete input;
 }
 
 
@@ -23,11 +25,15 @@ void Game::initializeWorld() {
     Shade::initialize();
     Render::initialize();
 
+    input = new Input();
+
     player = new Player();
     camera = new Camera();
 
-    player->setPosition(Vector3f(0f, 0f, 0f));
-    camera->setPosition(Vector3f(0f, 0f, -5f));
+    camera->setInput(input);
+    camera->setPosition(Vector3f(0.f, 0.f, -5.f));
+
+    player->setPosition(Vector3f(0.f, 0.f, 0.f));
 
     aspect = 1.f;
 
@@ -36,7 +42,61 @@ void Game::initializeWorld() {
 
 
 bool Game::keyboardEvent(int key, int scancode, int action, int modifiers) {
-    // TODO
+    if (key == GLFW_KEY_W) {
+        if (action == GLFW_PRESS) { input->setWKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setWKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_A) {
+        if (action == GLFW_PRESS) { input->setAKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setAKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_S) {
+        if (action == GLFW_PRESS) { input->setSKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setSKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_D) {
+        if (action == GLFW_PRESS) { input->setDKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setDKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_RIGHT) {
+        if (action == GLFW_PRESS) { input->setRArrowKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setRArrowKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_LEFT) {
+        if (action == GLFW_PRESS) { input->setLArrowKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setLArrowKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_UP) {
+        if (action == GLFW_PRESS) { input->setUArrowKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setUArrowKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_DOWN) {
+        if (action == GLFW_PRESS) { input->setDArrowKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setDArrowKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_1) {
+        if (action == GLFW_PRESS) { input->setOneKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setOneKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_2) {
+        if (action == GLFW_PRESS) { input->setTwoKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setTwoKey(false); return true; }
+    }
+
+    else if (key == GLFW_KEY_3) {
+        if (action == GLFW_PRESS) { input->setThreeKey(true); return true; }
+        else if (action == GLFW_RELEASE) { input->setThreeKey(false); return true; }
+    }
+
     return false;
 }
 
@@ -45,19 +105,19 @@ bool Game::mouseButtonEvent(const Vector2i &p, int button, bool down, int modifi
     return false;
 }
 
-bool Game::mouseDragEvent(const Vector2i &p, const Vector2i &rel, int button, int modifiers) {
-    // TODO
-    return false;
-}
-
-bool Game::scrollEvent(const Vector2i &p, const Vector2f &rel) {
-    // TODO
-    return false;
-}
+// bool Game::mouseDragEvent(const Vector2i &p, const Vector2i &rel, int button, int modifiers) {
+//     // TODO
+//     return false;
+// }
+//
+// bool Game::scrollEvent(const Vector2i &p, const Vector2f &rel) {
+//     // TODO
+//     return false;
+// }
 
 // TODO - maybe modify nanogui to allow for different update and draw loops
 void Game::draw(NVGcontext *ctx) {
-    clearScreen(ctx);
+    // clearScreen(ctx);
 
     // clockc::time_point currentTime = high_resolution_clock::now();
     // duration<double> time_span = duration_cast<duration<double>>(currentTime - startTime);
@@ -85,22 +145,34 @@ void Game::drawContents() {
     currentTime = high_resolution_clock::now();
     duration<double> time_span = duration_cast<duration<double>>(currentTime - startTime);
 
-    update(time_span.count());
+    float dt = time_span.count();
+
+    update(dt);
 
     Matrix4f mvp;
     mvp.setIdentity();
 
     Matrix4f model = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
     Matrix4f view = camera->lookAt(player);
-    Matrix4f proj = perspective(); // GOTTA GO
+    Matrix4f proj = perspective(120.f, aspect, 0.2f, 100.f);
+
+    // if (input->getWKeyDown()) { cout << "W IS DOWN " << endl; }
+    // if (input->getAKeyDown()) { cout << "A IS DOWN " << endl; }
+    // cout << "DT: " << dt << endl;
+
+    // printMatrix(view);
+
+    mvp = proj * view * model;
+    // mvp = view * model;
+    // mvp = model;
 
     // Matrix3f zrot = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitZ())) * 0.25f;
     // Matrix3f yrot = Matrix3f(Eigen::AngleAxisf((float) glfwGetTime(),  Vector3f::UnitY())) * 0.25f;
     // mvp.topLeftCorner<3,3>() = zrot * yrot;
 
-    mvp = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
+    // mvp = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
 
-    mvp.row(0) *= (float) mSize.y() / (float) mSize.x();
+    // mvp.row(0) *= (float) mSize.y() / (float) mSize.x();
 
 
     // mvp *= 40.f;
@@ -131,13 +203,7 @@ void Game::drawContents() {
 }
 
 void Game::update(float dt) {
+    camera->update(dt);
+    player->update(dt);
     // TODO
-}
-
-void Game::clearScreen(NVGcontext* ctx) {
-    // clear the screen
-    // nvgBeginPath(ctx);
-    // nvgRect(ctx, 0, 0, 1024, 1024);
-    // nvgFillColor(ctx, nvgRGBA(0, 0, 0, 255));
-    // nvgFill(ctx);
 }
