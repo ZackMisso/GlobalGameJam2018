@@ -9,4 +9,5 @@ public:
     static void deinitialize();
 
     static nanogui::GLShader quadShader;
+    static nanogui::GLShader simpleShader;
 };
