@@ -105,9 +105,30 @@ endif()
 
 add_executable(firal
     # Include files
+    include/firal/common.h
+    include/firal/random.h
+    include/firal/subscreen.h
+    include/firal/game.h
+    include/firal/render.h
+    include/firal/player.h
+    include/firal/tree.h
+    include/firal/camera.h
+    include/firal/object.h
+    include/firal/map.h
+    include/firal/shade.h
 
     # Implementation files
+    src/random.cpp
+    src/subscreen.cpp
+    src/game.cpp
     src/main.cpp
+    src/render.cpp
+    src/player.cpp
+    src/tree.cpp
+    src/camera.cpp
+    src/object.cpp
+    src/map.cpp
+    src/shade.cpp
 )
 
 #OPENEXR_INCLUDE_DIRS
