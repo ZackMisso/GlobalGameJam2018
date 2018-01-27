@@ -8,5 +8,5 @@ public:
     Light();
 
     virtual void update(float dt);
-    virtual void render();
+    virtual void render(Matrix4f vp, Matrix4f invV);
 };

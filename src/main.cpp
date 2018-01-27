@@ -3,7 +3,7 @@
 #include <firal/game.h>
 
 int main(int argc, char* argv[]) {
-    cout << "HELLO LORD FIRAL" << endl;
+    // cout << "HELLO LORD FIRAL" << endl;
 
     Random::initialize();
 

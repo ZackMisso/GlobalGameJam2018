@@ -12,6 +12,6 @@ void Player::update(float dt) {
     // TODO
 }
 
-void Player::render() {
+void Player::render(Matrix4f vp, Matrix4f invV) {
     // TODO
 }

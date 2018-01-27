@@ -169,11 +169,13 @@ void Game::drawContents() {
     // Shade::simpleShader.drawIndexed(GL_TRIANGLES, 0, 12);
 
     // blinnPhong
-    Matrix4f model = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
+    Matrix4f model = firal_rotate(glfwGetTime(), 1, 1, 1) * firal_scale(0.25f, 0.25f, 0.25f);
     Matrix4f view = camera->lookAt(player);
-    Matrix4f proj = perspective(120.f, aspect, 0.2f, 100.f);
+    Matrix4f proj = firal_perspective(120.f, aspect, 0.2f, 100.f);
 
-    Matrix4f mvp = proj * view * model;
+    Matrix4f vp = proj * view;
+
+    Matrix4f mvp = vp * model;
     Matrix4f invView = view.inverse();
     Matrix4f normMat = model.inverse().transpose();
     Vector3f lightPos = camera->getPosition();

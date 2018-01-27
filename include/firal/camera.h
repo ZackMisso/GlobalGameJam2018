@@ -10,7 +10,7 @@ public:
     ~Camera();
 
     virtual void update(float dt);
-    virtual void render();
+    virtual void render(Matrix4f vp, Matrix4f invV);
 
     Matrix4f lookAt(Object* other);
     Object* traceRay(float x, float y);

@@ -16,6 +16,7 @@ Matrix4f Camera::lookAt(Object* other) {
     if (dirty) {
         Vector3f u = Vector3f(0.f, 1.f, 0.f);
         Vector3f f = position - other->getPosition();
+        // Vector3f f = other->getPosition() - position;
         f.normalize();
 
         Vector3f r = u.cross(f);
@@ -34,6 +35,11 @@ Matrix4f Camera::lookAt(Object* other) {
     orien.col(1) << up[0], up[1], up[2], 0;
     orien.col(2) << forward[0], forward[1], forward[2], 0;
     orien.col(3) << 0, 0, 0, 1;
+
+    // orien.col(0) << forward[0], forward[1], forward[2], 0;
+    // orien.col(1) << up[0], up[1], up[2], 0;
+    // orien.col(2) << right[0], right[1], right[2], 0;
+    // orien.col(3) << 0, 0, 0, 1;
 
     trans.col(0) << 1, 0, 0, 0;
     trans.col(1) << 0, 1, 0, 0;
@@ -58,9 +64,19 @@ void Camera::update(float dt) {
         position = position + Vector3f(0.f, 0.f, -dt);
         dirty = true;
     }
+
+    if (input->getAKeyDown()) {
+        position = position + dt * right;
+        dirty = true;
+    }
+
+    if (input->getDKeyDown()) {
+        position = position - dt * right;
+        dirty = true;
+    }
 }
 
-void Camera::render() {
+void Camera::render(Matrix4f vp, Matrix4f invV) {
     // will do nothing
 }
 

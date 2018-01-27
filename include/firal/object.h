@@ -9,7 +9,7 @@ public:
 
     // virtual void update(float dt, Input* input);
     virtual void update(float dt) = 0;
-    virtual void render() = 0;
+    virtual void render(Matrix4f vp, Matrix4f invV) = 0;
 
     void translateObject(float x, float y, float z);
     void rotateObject(float a, float x, float y, float z);

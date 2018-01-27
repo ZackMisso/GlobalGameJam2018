@@ -7,6 +7,9 @@
 // for eigen
 #include <nanogui/glutil.h>
 
+// // internal utils
+// #include <firal/util.h>
+
 #include <chrono>
 using namespace std::chrono_literals;
 using namespace std::chrono;
@@ -30,3 +33,9 @@ using clockc = std::chrono::high_resolution_clock;
 #define EPSILON 1e-8
 #define SQRT_2 1.f // TODO
 #define INV_SQRT_2 1.f // TODO
+
+enum SHADER_TYPE {
+    SH_SIMPLE,
+    SH_PHONG,
+    SH_LAMBERT
+};

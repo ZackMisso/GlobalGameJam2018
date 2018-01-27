@@ -2,7 +2,7 @@
 
 #include <firal/common.h>
 
-Matrix4f scale(float x, float y, float z) {
+Matrix4f firal_scale(float x, float y, float z) {
     Matrix4f matrix;
 
     matrix(0, 0) = x;
@@ -17,7 +17,7 @@ Matrix4f scale(float x, float y, float z) {
     return matrix;
 }
 
-Matrix4f translate(float x, float y, float z) {
+Matrix4f firal_translate(float x, float y, float z) {
     Matrix4f matrix;
 
     matrix.col(0) << 1, 0, 0, 0;
@@ -28,7 +28,7 @@ Matrix4f translate(float x, float y, float z) {
     return matrix;
 }
 
-Matrix4f rotate(float a, float x, float y, float z) {
+Matrix4f firal_rotate(float a, float x, float y, float z) {
     Matrix4f matrix;
 
     float d = sqrt(x*x + y*y + z*z);
@@ -63,7 +63,7 @@ Matrix4f rotate(float a, float x, float y, float z) {
     return matrix;
 }
 
-Matrix4f frustum(float l, float r, float b, float t, float n, float f) {
+Matrix4f firal_frustum(float l, float r, float b, float t, float n, float f) {
     Matrix4f matrix;
 
     matrix(0, 0) = 2 * n / (r - l);
@@ -89,13 +89,13 @@ Matrix4f frustum(float l, float r, float b, float t, float n, float f) {
     return matrix;
 }
 
-MatrixXf perspective(float fov, float aspect, float near, float far) {
+MatrixXf firal_perspective(float fov, float aspect, float near, float far) {
     float y = tan(fov * PI / 360) * near;
     float x = y * aspect;
-    return frustum(-x, x, -y, y, near, far);
+    return firal_frustum(-x, x, -y, y, near, far);
 }
 
-void printMatrix(Matrix4f matrix) {
+void firal_printMatrix(Matrix4f matrix) {
     for (int i = 0; i < matrix.rows(); i++) {
         for (int j = 0; j < matrix.cols(); j++) {
             cout << " " << matrix(i, j) << " ";
