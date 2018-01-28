@@ -10,6 +10,10 @@ public:
     static MatrixXu cube_inds;
     static MatrixXf cube_verts;
     static MatrixXf cube_norms;
+
+    // static MatrixXu square_inds;
+    // static MatrixXf square_verts;
+    // static MatrixXf square_norms;
 };
 
 // MatrixXu cube_ind;

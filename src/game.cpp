@@ -30,6 +30,7 @@ void Game::initializeWorld() {
     player = new Player();
     camera = new Camera();
     test = new Tree();
+    map = new Map(10, 10);
 
     camera->setInput(input);
     camera->setPosition(Vector3f(0.f, 0.f, -5.f));
@@ -132,6 +133,27 @@ void Game::draw(NVGcontext *ctx) {
     // update()
 
     // draw screen overlay and objects
+    duration<double> time_span = duration_cast<duration<double>>(currentTime - startTime);
+    float dt = time_span.count();
+
+    ostringstream fpsstr;
+    ostringstream forwardstr;
+    ostringstream rightstr;
+    ostringstream upstr;
+    ostringstream posstr;
+
+    fpsstr << "FPS: " << 1.f / dt;
+    forwardstr << "Forward: <" << camera->getForward()[0] << ", " << camera->getForward()[1] << ", " << camera->getForward()[2] << ">";
+    rightstr << "Right: <" << camera->getRight()[0] << ", " << camera->getRight()[1] << ", " << camera->getRight()[2] << ">";
+    upstr << "Up: <" << camera->getUp()[0] << ", " << camera->getUp()[1] << ", " << camera->getUp()[2] << ">";
+    posstr << "Pos: <" << camera->getPosition()[0] << ", " << camera->getPosition()[1] << ", " << camera->getPosition()[2] << ">";
+
+    nvgFillColor(ctx, nvgRGBA(255, 255, 255, 255));
+    nvgText(ctx, 0, 12, fpsstr.str().c_str(), NULL);
+    nvgText(ctx, 0, 26, forwardstr.str().c_str(), NULL);
+    nvgText(ctx, 0, 40, rightstr.str().c_str(), NULL);
+    nvgText(ctx, 0, 54, upstr.str().c_str(), NULL);
+    nvgText(ctx, 0, 68, posstr.str().c_str(), NULL);
 
     // finish update loops
     startTime = currentTime;
@@ -140,8 +162,8 @@ void Game::draw(NVGcontext *ctx) {
 
 void Game::drawContents() {
     // main loop
-    // cout << "DRAWING" << endl;
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    // cout << "DRAWING" << endl; (66, 83, 244)
+    glClearColor(66.f / 255.f, 83.f / 255.f, 244.f / 255.f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glEnable(GL_DEPTH_TEST);
@@ -150,6 +172,8 @@ void Game::drawContents() {
     duration<double> time_span = duration_cast<duration<double>>(currentTime - startTime);
 
     float dt = time_span.count();
+
+    // cout << "FPS: " << 1.f / dt << endl;
 
     update(dt);
 
@@ -171,9 +195,9 @@ void Game::drawContents() {
     // Shade::simpleShader.drawIndexed(GL_TRIANGLES, 0, 12);
 
     // blinnPhong
-    Matrix4f model = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
+    // Matrix4f model = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
     Matrix4f view = camera->lookAt(player);
-    Matrix4f proj = perspective(120.f, aspect, 0.2f, 100.f);
+    Matrix4f proj = perspective(60.f, aspect, 0.2f, 100.f);
 
     Matrix4f vp = proj * view;
     Matrix4f invView = view.inverse();

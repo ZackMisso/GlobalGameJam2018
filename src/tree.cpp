@@ -72,11 +72,12 @@ void Tree::render(Matrix4f vp, Matrix4f invV) {
 
     trunkMaterial->bindMaterialData();
     // leavesMaterial->bindMaterialData();
+    // Shade::lambertShader.setUniform("invView", invV);
 
     Shade::lambertShader.setUniform("mvpMatrix", mvp);
     Shade::lambertShader.setUniform("mMatrix", model);
     Shade::lambertShader.setUniform("nMatrix", normMat);
-    Shade::lambertShader.setUniform("invViewMatrix", invV);
+
     Shade::lambertShader.drawIndexed(GL_TRIANGLES, 0, 12);
 
     Shade::phongShader.bind();

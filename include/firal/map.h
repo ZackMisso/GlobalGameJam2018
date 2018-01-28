@@ -1,11 +1,9 @@
 #pragma once
 
 #include <firal/common.h>
+#include <firal/object.h>
 
-// should this extend object??
-// TODO : make a singleton
-
-class Map {
+class Map : public Object {
 public:
     Map(int w, int h);
     ~Map();
@@ -15,9 +13,12 @@ public:
 
     void render();
 
+    virtual void update(float dt);
+    virtual void render(Matrix4f vp, Matrix4f invV);
+
     vector<float> heightPoints;
     vector<int> tileTypes;
-    
+
     int mapWidth;
     int mapHeight;
     float widthScale;

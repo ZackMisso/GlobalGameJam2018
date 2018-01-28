@@ -13,6 +13,7 @@ void Material::bindMaterialData() {
     if (shaderType == SH_SIMPLE) {
         // no material data
     } else if (shaderType == SH_LAMBERT) {
+        // cout << "HERE" << endl;
         Shade::lambertShader.setUniform("ka", ka);
         Shade::lambertShader.setUniform("kd", kd);
         // Shade::lambertShader.setUniform("n", n);

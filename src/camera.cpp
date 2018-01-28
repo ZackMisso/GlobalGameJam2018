@@ -19,8 +19,10 @@ Matrix4f Camera::lookAt(Object* other) {
         // Vector3f f = other->getPosition() - position;
         f.normalize();
 
-        Vector3f r = u.cross(f);
-        u = f.cross(r);
+        Vector3f r = f.cross(u);
+        r.normalize();
+        u = r.cross(f);
+        u.normalize();
 
         right = r;
         up = u;
@@ -68,12 +70,14 @@ void Camera::update(float dt) {
     }
 
     if (input->getAKeyDown()) {
-        position = position + dt * right;
+        // position = position + dt * right;
+        position = position + Vector3f(dt, -0.f, 0.f);
         dirty = true;
     }
 
     if (input->getDKeyDown()) {
-        position = position - dt * right;
+        // position = position - dt * right;
+        position = position + Vector3f(-dt, 0.f, 0.f);
         dirty = true;
     }
 }
