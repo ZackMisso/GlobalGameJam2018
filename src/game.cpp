@@ -29,11 +29,13 @@ void Game::initializeWorld() {
 
     player = new Player();
     camera = new Camera();
+    test = new Tree();
 
     camera->setInput(input);
     camera->setPosition(Vector3f(0.f, 0.f, -5.f));
 
     player->setPosition(Vector3f(0.f, 0.f, 0.f));
+    test->setPosition(Vector3f(0.f, 0.f, 0.f));
 
     aspect = 1.f;
 
@@ -169,27 +171,30 @@ void Game::drawContents() {
     // Shade::simpleShader.drawIndexed(GL_TRIANGLES, 0, 12);
 
     // blinnPhong
-    Matrix4f model = firal_rotate(glfwGetTime(), 1, 1, 1) * firal_scale(0.25f, 0.25f, 0.25f);
+    Matrix4f model = rotate(glfwGetTime(), 1, 1, 1) * scale(0.25f, 0.25f, 0.25f);
     Matrix4f view = camera->lookAt(player);
-    Matrix4f proj = firal_perspective(120.f, aspect, 0.2f, 100.f);
+    Matrix4f proj = perspective(120.f, aspect, 0.2f, 100.f);
 
     Matrix4f vp = proj * view;
-
-    Matrix4f mvp = vp * model;
     Matrix4f invView = view.inverse();
-    Matrix4f normMat = model.inverse().transpose();
-    Vector3f lightPos = camera->getPosition();
 
-    Shade::phongShader.bind();
-    Shade::phongShader.uploadIndices(Render::cube_inds);
-    Shade::phongShader.uploadAttrib("pos", Render::cube_verts);
-    Shade::phongShader.uploadAttrib("norm", Render::cube_norms);
-    Shade::phongShader.setUniform("mvpMatrix", mvp);
-    Shade::phongShader.setUniform("mMatrix", model);
-    Shade::phongShader.setUniform("nMatrix", normMat);
-    Shade::phongShader.setUniform("invViewMatrix", invView);
-    Shade::phongShader.setUniform("lightPos", lightPos);
-    Shade::phongShader.drawIndexed(GL_TRIANGLES, 0, 12);
+    test->render(vp, invView);
+
+    // Matrix4f mvp = vp * model;
+    // // Matrix4f invView = view.inverse();
+    // Matrix4f normMat = model.inverse().transpose();
+    // Vector3f lightPos = camera->getPosition();
+    //
+    // Shade::phongShader.bind();
+    // Shade::phongShader.uploadIndices(Render::cube_inds);
+    // Shade::phongShader.uploadAttrib("pos", Render::cube_verts);
+    // Shade::phongShader.uploadAttrib("norm", Render::cube_norms);
+    // Shade::phongShader.setUniform("mvpMatrix", mvp);
+    // Shade::phongShader.setUniform("mMatrix", model);
+    // Shade::phongShader.setUniform("nMatrix", normMat);
+    // Shade::phongShader.setUniform("invViewMatrix", invView);
+    // Shade::phongShader.setUniform("lightPos", lightPos);
+    // Shade::phongShader.drawIndexed(GL_TRIANGLES, 0, 12);
 
 
 }

@@ -56,12 +56,14 @@ void Camera::update(float dt) {
     // if (input->getAKeyDown()) { cout << "A IS DOWN " << endl; }
 
     if (input->getWKeyDown()) {
-        position = position + Vector3f(0.f, 0.f, dt);
+        position = position + Vector3f(0.f, dt, 0.f);
+        // position = position + dt * up;
         dirty = true;
     }
 
     if (input->getSKeyDown()) {
-        position = position + Vector3f(0.f, 0.f, -dt);
+        position = position + Vector3f(0.f, -dt, 0.f);
+        // position = position - dt * up;
         dirty = true;
     }
 

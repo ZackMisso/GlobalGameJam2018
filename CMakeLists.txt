@@ -106,6 +106,7 @@ endif()
 add_executable(firal
     # Include files
     include/firal/common.h
+    include/firal/util.h
     include/firal/random.h
     include/firal/subscreen.h
     include/firal/game.h
@@ -116,7 +117,6 @@ add_executable(firal
     include/firal/object.h
     include/firal/map.h
     include/firal/shade.h
-    include/firal/util.h
     include/firal/input.h
     include/firal/light.h
     include/firal/material.h
@@ -136,6 +136,7 @@ add_executable(firal
     src/input.cpp
     src/light.cpp
     src/material.cpp
+    src/util.cpp
 )
 
 #OPENEXR_INCLUDE_DIRS

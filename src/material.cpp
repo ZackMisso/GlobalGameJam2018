@@ -12,11 +12,11 @@ Material::Material() {
 void Material::bindMaterialData() {
     if (shaderType == SH_SIMPLE) {
         // no material data
-    } else if (shaderType == SH_PHONG) {
+    } else if (shaderType == SH_LAMBERT) {
         Shade::lambertShader.setUniform("ka", ka);
         Shade::lambertShader.setUniform("kd", kd);
-        Shade::lambertShader.setUniform("n", n);
-    } else if (shaderType == SH_LAMBERT) {
+        // Shade::lambertShader.setUniform("n", n);
+    } else if (shaderType == SH_PHONG) {
         Shade::phongShader.setUniform("ka", ka);
         Shade::phongShader.setUniform("kd", kd);
         Shade::phongShader.setUniform("n", n);

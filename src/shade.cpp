@@ -90,10 +90,10 @@ void Shade::initialize() {
         /* Fragment shader */
         "uniform vec3 lightPos;\n"
         "const vec3 lightInt = vec3(100);\n"
-        "const vec3 ka = 0.3*vec3(1, 0.5, 0.5);\n"
-        "const vec3 kd = 0.7*vec3(1, 0.5, 0.5);\n"
-        "const vec3 ks = vec3(0.4);\n"
-        "const float n = 60.0;\n"
+        "uniform vec3 ka;\n"
+        "uniform vec3 kd;\n"
+        "uniform vec3 ks;\n"
+        "uniform float n;\n"
         "\n"
         "uniform mat4 invViewMatrix;\n"
         "varying vec3 vWorldPos;\n"
@@ -136,12 +136,10 @@ void Shade::initialize() {
         "}",
 
         /* Fragment shader */
-        "uniform vec3 lightPos;\n"
         "const vec3 lightInt = vec3(100);\n"
-        "const vec3 ka = 0.3*vec3(1, 0.5, 0.5);\n"
-        "const vec3 kd = 0.7*vec3(1, 0.5, 0.5);\n"
-        // "const vec3 ks = vec3(0.4);\n"
-        "const float n = 60.0;\n"
+        "uniform vec3 lightPos;\n"
+        "uniform vec3 ka;\n"
+        "uniform vec3 kd;\n"
         "\n"
         "uniform mat4 invViewMatrix;\n"
         "varying vec3 vWorldPos;\n"
@@ -156,7 +154,6 @@ void Shade::initialize() {
         "   lightDir = normalize(lightDir);\n"
         "   vec3 h = normalize(camDir + lightDir);\n"
         "   vec3 lambert = kd * max(dot(norm, lightDir), 0.0);\n"
-        // "   vec3 blinnPhong = ks * pow(max(dot(norm, h), 0.0), n);\n"
         "   vec3 response = ka * lightInt / lMagSq * (lambert);\n"
         "   gl_FragColor = vec4(response, 1.0);\n"
         "}"

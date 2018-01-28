@@ -5,6 +5,7 @@
 #include <firal/player.h>
 #include <firal/camera.h>
 #include <firal/input.h>
+#include <firal/tree.h>
 #include <nanogui/window.h>
 
 class Game : public nanogui::Screen {
@@ -34,6 +35,7 @@ protected:
     Player* player;
     Camera* camera;
     Input* input;
+    Tree* test;
 
     float aspect;
 };
