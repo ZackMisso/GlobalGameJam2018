@@ -12,13 +12,13 @@ Tree::Tree() {
     trunkMaterial = new Material();
 
     leavesMaterial->setShaderType(SH_PHONG);
-    leavesMaterial->setKA(Vector3f(0.2f, 0.2f, 0.2f));
+    leavesMaterial->setKA(Vector3f(0.0f, 0.1f, 0.0f));
     leavesMaterial->setKD(Vector3f(0.1f, 0.9f, 0.2f));
     leavesMaterial->setKS(Vector3f(0.0f, 1.0f, 0.0f));
     leavesMaterial->setN(60.f);
 
     trunkMaterial->setShaderType(SH_LAMBERT);
-    trunkMaterial->setKA(Vector3f(0.1f, 0.1f, 0.1f));
+    trunkMaterial->setKA(Vector3f(0.0f, 0.0f, 0.0f));
     trunkMaterial->setKD(Vector3f(165.f / 255.f, 42.f / 255.f, 42.f / 255.f));
     // trunkMaterial->setKS(Vector3f(0.0f, 1.0f, 0.0f));
     // trunkMaterial->setN(60.f);
@@ -43,14 +43,16 @@ void Tree::render(Matrix4f vp, Matrix4f invV) {
 
     float initialScale = 1.0;
 
-    trunkModel = scale(initialScale, initialScale, initialScale);
+    Matrix4f trans = translate(position[0], position[1], position[2]);
+
+    trunkModel = trans * scale(initialScale, initialScale, initialScale);
     // trunkModel = scale(1.0, 1.0, 1.0);
 
     float ytrans = 0.6f;
     float width = initialScale * 1.5;
     float oldWidth = initialScale;
     for (int i = 0; i < height; i++) {
-        leavesModel[i] = translate(0.f, ytrans + width, 0.f) * scale(width, width, width);
+        leavesModel[i] = trans * translate(0.f, ytrans + width, 0.f) * scale(width, width, width);
         oldWidth = width;
         width *= heightScale;
         ytrans += 1.9 * oldWidth;

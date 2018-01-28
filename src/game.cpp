@@ -33,10 +33,10 @@ void Game::initializeWorld() {
     map = new Map(10, 10);
 
     camera->setInput(input);
-    camera->setPosition(Vector3f(0.f, 0.f, -5.f));
+    camera->setPosition(Vector3f(0.f, 2.f, -5.f));
 
     player->setPosition(Vector3f(0.f, 0.f, 0.f));
-    test->setPosition(Vector3f(0.f, 0.f, 0.f));
+    test->setPosition(Vector3f(0.f, 1.5f, 0.f));
 
     aspect = 1.f;
 
@@ -203,6 +203,7 @@ void Game::drawContents() {
     Matrix4f invView = view.inverse();
 
     test->render(vp, invView);
+    map->render(vp, invView);
 
     // Matrix4f mvp = vp * model;
     // // Matrix4f invView = view.inverse();
@@ -226,5 +227,6 @@ void Game::drawContents() {
 void Game::update(float dt) {
     camera->update(dt);
     player->update(dt);
+    map->update(dt);
     // TODO
 }

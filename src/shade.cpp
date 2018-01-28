@@ -91,7 +91,7 @@ void Shade::initialize() {
         /* Fragment shader */
         "#version 330\n"
         "uniform vec3 lightPos;\n"
-        "const vec3 lightInt = vec3(100);\n"
+        "const vec3 lightInt = vec3(10);\n"
         "uniform vec3 ka;\n"
         "uniform vec3 kd;\n"
         "uniform vec3 ks;\n"
@@ -112,7 +112,7 @@ void Shade::initialize() {
         "   vec3 h = normalize(camDir + lightDir);\n"
         "   vec3 lambert = kd * max(dot(norm, lightDir), 0.0);\n"
         "   vec3 blinnPhong = ks * pow(max(dot(norm, h), 0.0), n);\n"
-        "   vec3 response = ka * lightInt / lMagSq * (lambert + blinnPhong);\n"
+        "   vec3 response = ka + lightInt / lMagSq * (lambert + blinnPhong);\n"
         "   color = vec4(response, 1.0);\n"
         "}"
     );
@@ -141,7 +141,7 @@ void Shade::initialize() {
 
         /* Fragment shader */
         "#version 330\n"
-        "const vec3 lightInt = vec3(100);\n"
+        "const vec3 lightInt = vec3(10);\n"
         "uniform vec3 lightPos;\n"
         "uniform vec3 ka;\n"
         "uniform vec3 kd;\n"
@@ -156,7 +156,7 @@ void Shade::initialize() {
         "   float lMagSq = dot(lightDir, lightDir);\n"
         "   lightDir = normalize(lightDir);\n"
         "   vec3 lamb = kd * max(dot(norm, lightDir), 0.0);\n"
-        "   vec3 response = ka * lightInt / lMagSq * (lamb);\n"
+        "   vec3 response = ka + lightInt / lMagSq * (lamb);\n"
         "   color = vec4(response, 1.0);\n"
         "}"
     );
