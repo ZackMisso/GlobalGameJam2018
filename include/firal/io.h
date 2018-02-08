@@ -1,0 +1,3 @@
+#pragma once
+
+// THIS CLASS IS USED FOR ALL BASIC IO

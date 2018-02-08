@@ -59,6 +59,7 @@ void Map::update(float dt) {
     // TODO
 }
 
+// TODO - REWRITE
 void Map::render(Matrix4f vp, Matrix4f invV) {
     MatrixXu indices(3, 2);
     indices.col(0) << 0, 1, 2;

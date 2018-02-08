@@ -108,16 +108,6 @@ bool Game::mouseButtonEvent(const Vector2i &p, int button, bool down, int modifi
     return false;
 }
 
-// bool Game::mouseDragEvent(const Vector2i &p, const Vector2i &rel, int button, int modifiers) {
-//     // TODO
-//     return false;
-// }
-//
-// bool Game::scrollEvent(const Vector2i &p, const Vector2f &rel) {
-//     // TODO
-//     return false;
-// }
-
 // TODO - maybe modify nanogui to allow for different update and draw loops
 void Game::draw(NVGcontext *ctx) {
     // clearScreen(ctx);

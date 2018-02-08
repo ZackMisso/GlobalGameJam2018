@@ -20,10 +20,6 @@ public:
     virtual bool keyboardEvent(int key, int scancode, int action, int modifiers);
     virtual bool mouseButtonEvent(const Vector2i &p, int button, bool down, int modifiers);
 
-    // probably not going to use these
-    // virtual bool mouseDragEvent(const Vector2i &p, const Vector2i &rel, int button, int modifiers);
-    // virtual bool scrollEvent(const Vector2i &p, const Vector2f &rel);
-
     virtual void draw(NVGcontext *ctx);
     virtual void drawContents();
 
